@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <title>Tipo de Cambio SUNAT</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: #f9f9f9;
+      padding: 20px;
+      max-width: 400px;
+      margin: auto;
+      border: 1px solid #ddd;
+      border-radius: 8px;
+    }
+    h2 {
+      color: #333;
+    }
+    .cambio {
+      font-size: 18px;
+      margin-top: 10px;
+    }
+    .fecha {
+      font-size: 14px;
+      color: gray;
+      margin-top: 5px;
+    }
+  </style>
+</head>
+<body>
+  <h2>Tipo de cambio SUNAT</h2>
+  <div class="cambio">
+    <strong>Compra:</strong> <span id="compra">Cargando...</span><br>
+    <strong>Venta:</strong> <span id="venta">Cargando...</span>
+  </div>
+  <div class="fecha">
+    Fecha: <span id="fecha">Cargando...</span>
+  </div>
+
+  <script>
+  fetch("https://corsproxy.io/?https://api.apis.net.pe/v1/tipo-cambio-sunat")
+      .then(response => {
+        if (!response.ok) throw new Error("Error en la respuesta");
+        return response.json();
+      })
+      .then(data => {
+        document.getElementById("compra").textContent = data.compra;
+        document.getElementById("venta").textContent = data.venta;
+        document.getElementById("fecha").textContent = data.fecha;
+      })
+      .catch(error => {
+        console.error("Error al obtener el tipo de cambio:", error);
+        document.getElementById("compra").textContent = "Error";
+        document.getElementById("venta").textContent = "Error";
+        document.getElementById("fecha").textContent = "Error";
+      });
+  </script>
+</body>
+</html>
